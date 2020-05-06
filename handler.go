@@ -6,6 +6,7 @@
 package graphqlmultipart
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -192,12 +193,16 @@ func (m MultipartHandler) execute(op operationField, fMap map[string][]string, r
 		}
 	}
 
+	token := r.Header.Get("Authorization")
+	requestContext := r.Context()
+	requestContext = context.WithValue(requestContext, "jwt", token)
+
 	return graphql.Do(graphql.Params{
 		Schema:         *m.Schema,
 		RequestString:  op.Query,
 		VariableValues: *op.Variables,
 		OperationName:  op.OperationName,
-		Context:        r.Context(),
+		Context:        requestContext,
 	})
 }
 

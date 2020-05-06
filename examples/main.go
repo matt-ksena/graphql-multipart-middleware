@@ -6,8 +6,8 @@ import (
 	"os"
 
 	"github.com/graphql-go/handler"
-	graphqlmultipart "github.com/lucassabreu/graphql-multipart-middleware"
-	"github.com/lucassabreu/graphql-multipart-middleware/testutil"
+	graphqlmultipart "github.com/matt-ksena/graphql-multipart-middleware"
+	"github.com/matt-ksena/graphql-multipart-middleware/testutil"
 )
 
 func main() {

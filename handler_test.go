@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	graphqlmultipart "github.com/lucassabreu/graphql-multipart-middleware"
-	"github.com/lucassabreu/graphql-multipart-middleware/testutil"
+	graphqlmultipart "github.com/matt-ksena/graphql-multipart-middleware"
+	"github.com/matt-ksena/graphql-multipart-middleware/testutil"
 
 	"github.com/stretchr/testify/require"
 )
