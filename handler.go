@@ -42,6 +42,9 @@ var (
 
 	// InvalidMapPathMessage is shown when is not possible to find or populate the variable path
 	InvalidMapPathMessage = fmt.Sprintf("Invalid mapping path \"%%[1]s\" for file %%[2]s (%s)", specURL)
+
+	//Set equal to true to enable simple CORS, to be used only during testing
+	MulitpartCorsSimple bool
 )
 
 // MultipartHandler implements the specification for handling multipart/form-data
@@ -81,6 +84,9 @@ type operationField struct {
 // ServeHTTP will process requests of the type "multipart/form-data", if other
 // content-type was sent, it will be forwarded to the wrapped handler
 func (m MultipartHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if MulitpartCorsSimple == true {
+		enableCors(&w)
+	}
 	ct := r.Header.Get("Content-Type")
 	ct = strings.Split(ct, ";")[0]
 	if ct != "multipart/form-data" {
@@ -269,4 +275,10 @@ func writeError(w http.ResponseWriter, errs ...string) {
 	w.WriteHeader(http.StatusOK)
 	buff, _ := json.Marshal(graphql.Result{Errors: fErrs})
 	w.Write(buff)
+}
+
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
